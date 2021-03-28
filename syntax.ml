@@ -14,4 +14,4 @@ type instruction =
   | DebutFin of instruction list 
 
 type declaration = string 
-type program = declaration list * instruction list
+type programme = declaration list * instruction list
