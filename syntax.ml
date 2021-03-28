@@ -6,8 +6,8 @@ type expression =
   |App of expression * op * expression
 
 type instruction = 
-  | Haut
-  | Bas
+  | HautPinceau
+  | BasPinceau
   | Affect of string * expression
   | Avance of expression
   | Tourne of expression
