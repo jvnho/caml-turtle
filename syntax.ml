@@ -1,9 +1,15 @@
-type op = Plus | Moins
+type elementExpression = 
+Const of int
+|Ident of string
 
 type expression = 
-  Const of int
-  |Ident of string
-  |App of expression * op * expression
+elementExpression
+|Parenthese of expression
+|Sequence of elementExpression * suite
+and suite =
+Moins of expression
+|Plus of expression
+|Epsilon
 
 type instruction = 
   | HautPinceau
