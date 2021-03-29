@@ -1,15 +1,12 @@
-type elementExpression = 
+type expression = 
 Const of int
 |Ident of string
-
-type expression = 
-elementExpression
 |Parenthese of expression
-|Sequence of elementExpression * suite
+|Sequence of expression * suite
 and suite =
 Moins of expression
 |Plus of expression
-|Epsilon
+|Epsilone
 
 type instruction = 
   | HautPinceau

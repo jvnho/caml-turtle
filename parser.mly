@@ -26,12 +26,12 @@ i=instruction POINTVIRGULE b=blocInstruction {i::blocInstruction}
 | {[]}
 
 expression:
-n=INTCONST e=expressionSuite {}
-|i=IDENT e=expressionSuite {}
-|LEFTPA e=expression RIGHTPA e2 = expressionSuite {}
+n=INTCONST e=expressionSuite {Sequence ((Const n), e)}
+|i=IDENT e=expressionSuite {Sequence ((Ident i), e)}
+|LEFTPA e=expression RIGHTPA e2 = expressionSuite {Sequence(Parenthese(e), e2)}
 
 expressionSuite:
-PLUS e=expression  {}
-|MOINS e=expression {}
-| {}
+PLUS e=expression  {Plus e}
+|MOINS e=expression {Moins e}
+| {Epsilone}
 
