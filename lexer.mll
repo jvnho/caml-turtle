@@ -1,6 +1,16 @@
 {
     open Parser
+    open List
+
     exception Lexing_error of string
+    exception Var_error of String
+
+    let var = [];;
+
+    let rec is_var_declared elmt l =
+        match var with
+        | [] -> False
+        | head::tail -> if elmt == head then True else is_var_declared elmt tail;;
 }
 
 let space = [' ' '\n' '\t']
@@ -14,7 +24,12 @@ rule programme = parse
 
 and declaration = parse 
     | "Var"                     {VAR}
-    | identificateur            {INDENT}
+    | identificateur           
+        {
+            if (is_var_declared (Lexing.lexeme lexbuf) var) == False then IDENT 
+            else raise Var_error "One or several variables were declared more than once."
+        }
+
     | ";"                       {POINTVIRGULE}
     | space+                    {declaration Lexing.lexeme lexbuf}
     | _                         {programme Lexing.lexeme lexbuf}
