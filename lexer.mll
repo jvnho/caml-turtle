@@ -3,7 +3,7 @@
     open List
 
     exception Lexing_error of string
-    exception Var_error of String
+    exception Var_error of string
 
     let var = [];;
 
