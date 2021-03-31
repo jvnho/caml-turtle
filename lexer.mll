@@ -26,7 +26,7 @@ and declaration = parse
     | "Var"                     {VAR}
     | identificateur           
         {
-            if (is_var_declared (Lexing.lexeme lexbuf) var) == False then IDENT 
+            if (is_var_declared (Lexing.lexeme lexbuf) var) == False then (Lexing.lexeme lexbuf::var); IDENT 
             else raise Var_error "One or several variables were declared more than once."
         }
 
