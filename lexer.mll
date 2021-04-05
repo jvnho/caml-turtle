@@ -1,53 +1,34 @@
 {
+    open Lexing
     open Parser
-    open List
 
-    exception Lexing_error of string
-    exception Var_error of string
+    exception Error of string
 
-    let var = [];;
-
-    let rec is_var_declared elmt l =
-        match var with
-        | [] -> False
-        | head::tail -> if elmt == head then True else is_var_declared elmt tail;;
+    let next_line lexbuf =
+        let pos = lexbuf.lex_curr_p in
+        lexbuf.lex_curr_p <-
+        { pos with pos_bol = lexbuf.lex_curr_pos;
+                pos_lnum = pos.pos_lnum + 1
+        }
 }
 
-let space = [' ' '\n' '\t']
-let nombre = [1-9][0-9]* | 0
-let identificateur = [a-z][a-zA-Z0-9]*
-
 rule programme = parse 
-    | "Var"                     {declaration Lexing.lexeme lexbuf}
-    | space*                    {programme Lexing.lexeme lexbuf}
-    | _                         {instruction Lexing.lexeme lexbuf}
-
-and declaration = parse 
-    | "Var"                     {VAR}
-    | identificateur           
-        {
-            if (is_var_declared (Lexing.lexeme lexbuf) var) == False then (Lexing.lexeme lexbuf::var); IDENT 
-            else raise Var_error "One or several variables were declared more than once."
-        }
-
-    | ";"                       {POINTVIRGULE}
-    | space+                    {declaration Lexing.lexeme lexbuf}
-    | _                         {programme Lexing.lexeme lexbuf}
-
-and instruction = parse 
-    | "Avance"                  {AVANCE}
-    | "Tourne"                  {TOURNE}
-    | "BasPinceau"              {BASPINCEAU}
-    | "HautPinceau"             {HAUTPINCEAU}
-    | nombre                    {INTCONST}
-    | identificateur            {IDENT}
-    | "("                       {LEFTPA}
-    | ")"                       {RIGHTPA}
-    | "+"                       {PLUS}
-    | "-"                       {MOINS} 
-    | "="                       {EGALE}
-    | "Debut"                   {DEBUT}
-    | "Fin"                     {FIN}
-    | space+                    {instruction Lexing.lexeme lexbuf}
-    | eof                       {EOF}
-    | _                         {raise(Lexing_error(Lexing.lexeme lexbuf))}
+    | [' ''\t']                 { programme lexbuf }
+    | '\n'                      { next_line lexbuf; programme lexbuf }
+    | "Avance"                  { AVANCE }
+    | "Tourne"                  { TOURNE }
+    | "BasPinceau"              { BASPINCEAU }
+    | "HautPinceau"             { HAUTPINCEAU }
+    | "Var"                     { VAR }
+    | ['0'-'9']+ as i           { INTCONST (int_of_string i) }
+    | ['a'-'z']+ as s           { IDENT s }
+    | ";"                       { POINTVIRGULE }
+    | "("                       { LEFTPA }
+    | ")"                       { RIGHTPA }
+    | "+"                       { PLUS }
+    | "-"                       { MOINS } 
+    | "="                       { EGALE }
+    | "Debut"                   { DEBUT }
+    | "Fin"                     { FIN }
+    | eof                       { EOF }
+    | _                         { raise(Error(lexbuf))}
