@@ -1,8 +1,9 @@
-type expression = 
+type expression = Exp of debut * suite
+and debut =
 Const of int
 |Ident of string
 |Parenthese of expression
-|Sequence of expression * suite
+
 and suite =
 Moins of expression
 |Plus of expression
