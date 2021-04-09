@@ -1,6 +1,5 @@
 {
     open Lexing
-    open Parser
 
     exception Error of string
 
@@ -20,6 +19,8 @@ rule programme = parse
     | "BasPinceau"              { BASPINCEAU }
     | "HautPinceau"             { HAUTPINCEAU }
     | "Var"                     { VAR }
+    | "Debut"                   { DEBUT }
+    | "Fin"                     { FIN }
     | ['0'-'9']+ as i           { INTCONST (int_of_string i) }
     | ['a'-'z']+ as s           { IDENT s }
     | ";"                       { POINTVIRGULE }
@@ -28,7 +29,5 @@ rule programme = parse
     | "+"                       { PLUS }
     | "-"                       { MOINS } 
     | "="                       { EGALE }
-    | "Debut"                   { DEBUT }
-    | "Fin"                     { FIN }
     | eof                       { EOF }
     | _                         { raise(Error(lexbuf))}
