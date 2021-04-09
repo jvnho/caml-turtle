@@ -1,0 +1,22 @@
+type token =
+AVANCE | TOURNE | BASPINCEAU | HAUTPINCEAU | VAR | DEBUT | FIN | INTCONST of int 
+| IDENT of string |POINTVIRGULE| LEFTPA | RIGHTPA | PLUS | MOINS | EGALE | EOF
+
+let to_string = function 
+| AVANCE  -> "AVANCE"
+| TOURNE  -> "TOURNE"
+| BASPINCEAU  -> "BASPINCEAU"
+| HAUTPINCEAU  -> "HAUTPINCEAU"
+| VAR  -> "VAR"
+| DEBUT  -> "DEBUT"
+| FIN  -> "FIN"
+| INTCONST n  -> "INTCONST " ^ string_of_int n
+| IDENT s  -> "IDENT " ^ s 
+| POINTVIRGULE  -> "POINTVIRGULE"
+| LEFTPA  -> "LEFTPA"
+| RIGHTPA  -> "RIGHTPA"
+| PLUS  -> "PLUS"
+| MOINS  -> "MOINS"
+| EGALE  -> "EGALE"
+| EOF -> "EOF"
+;;

@@ -1,6 +1,8 @@
 {
     open Lexing
 
+    open Token
+
     exception Error of string
 
     let next_line lexbuf =
@@ -30,4 +32,4 @@ rule programme = parse
     | "-"                       { MOINS } 
     | "="                       { EGALE }
     | eof                       { EOF }
-    | _                         { raise(Error(lexbuf))}
+    | _                         { raise(Error(Lexing.lexeme lexbuf))}
