@@ -1,7 +1,7 @@
 {
     open Lexing
 
-    open Token
+    open Parser
 
     exception Error of string
 
