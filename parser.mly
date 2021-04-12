@@ -7,11 +7,10 @@
 %%
 s: p = programme EOF {p}
 
-programme: d = declaration i=instruction* {(d, i)}
+programme: d = declaration* i=instruction* {(d, i)}
 
 declaration: 
-VAR i=IDENT POINTVIRGULE d=declaration {i::d}
-| {[]}
+VAR i=IDENT POINTVIRGULE {i}
 
 instruction:
 AVANCE e=expression { Avance e }
