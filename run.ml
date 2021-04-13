@@ -12,7 +12,7 @@ let _=
   let lb = Lexing.from_channel stdin in
   try
     let arbre = Parser.s Lexer.token lb in
-    CheckSyntax.check_program ast;
+    (*CheckSyntax.check_program ast;*)
     Interpreter.exec_program ast
   with
   | Lexer.Error msg ->
