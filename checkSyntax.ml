@@ -4,4 +4,4 @@ exception Error of string
 
 (*retourne rien, mais declanche une erreur en caas d'arbre incorecte*)
 let check_program arbre = 
-  raise (Error ("deux fois declaré")
+  raise (Error ("deux fois declaré"))

@@ -14,14 +14,14 @@ VAR i=IDENT POINTVIRGULE {i}
 
 instruction:
 AVANCE e=expression { Avance e }
-| TOURNE e=expression { Toune e }
+| TOURNE e=expression { Tourne e }
 | BASPINCEAU { BasPinceau }
 | HAUTPINCEAU { HautPinceau }
 | i=IDENT EGALE e=expression { Affect(i, e)}
 | DEBUT b=blocInstruction FIN {DebutFin b}
 
 blocInstruction:
-i=instruction POINTVIRGULE b=blocInstruction {i::blocInstruction}
+i=instruction POINTVIRGULE b=blocInstruction {i::b}
 | {[]}
 
 expression:
