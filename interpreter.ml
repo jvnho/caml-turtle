@@ -3,7 +3,6 @@
   contient la gestion des etat des variable, et dessin
 *)
 open Syntax
-open Graphics
 
 exception Error of string
 
@@ -83,4 +82,10 @@ and exec_li_instruction env li_instruction etat =
   List.fold_left (fun environemnt instruction -> exec_instruction environemnt instruction etat) 
   env li_instruction
 
-let exec_program arbre = failwith "erreur" 
+let exec_program arbre = 
+  let state = ref {a = 90.; leve = true; xmax = 0.; ymax = 0.} in
+  match arbre with 
+  |(li_declaration, li_instruction)->
+    let env = initialisation li_declaration in
+    Graphics.open_graph " 800x800";
+    exec_li_instruction env  li_instruction state

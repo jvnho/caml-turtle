@@ -13,7 +13,7 @@ let _=
   try
     let arbre = Parser.s Lexer.token lb in
     (*CheckSyntax.check_program ast;*)
-    Interpreter.exec_program ast
+    Interpreter.exec_program arbre
   with
   | Lexer.Error msg ->
      Printf.fprintf stderr "%a: Lexer error reading %s\n" print_position lb msg;
