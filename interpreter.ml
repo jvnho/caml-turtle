@@ -3,7 +3,6 @@
   contient la gestion des etat des variable, et dessin
 *)
 open Syntax
-
 exception Error of string
 
 type position = {

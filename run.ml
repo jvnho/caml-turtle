@@ -11,7 +11,7 @@ let print_position outx lexbuf =
 let _=
   let lb = Lexing.from_channel stdin in
   try
-    let arbre = Parser.s Lexer.token lb in
+    let arbre = Parser.s Lexer.programme lb in
     (*CheckSyntax.check_program ast;*)
     Interpreter.exec_program arbre
   with
