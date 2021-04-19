@@ -87,4 +87,5 @@ let exec_program arbre =
   |(li_declaration, li_instruction)->
     let env = initialisation li_declaration in
     Graphics.open_graph " 800x800";
+    Graphics.moveto 400 400;
     exec_li_instruction env  li_instruction state
