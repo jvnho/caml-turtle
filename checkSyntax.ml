@@ -11,14 +11,29 @@ let rec is_var_in_list elt list =
   | [] -> false 
   | head::tail -> if head = elt then true else is_var_in_list elt tail
 
-(*retourne rien, mais declenche une erreur en cas d'arbre incorecte*) 
-
+(*retourne rien, mais declenche une erreur en cas d'arbre incorecte*)
 let rec check_program = function 
-  | Exp (d,s) -> check_program d; check_program s
-  | Const n | Epsilone | HautPinceau | BasPinceau -> ()
-  | Ident s -> if is_var_in_list s !var_list = true then raise (Error ("Variable already declared")) else var_list := s::(!var_list); ()
-  | Parenthese e | Avance e | Moins e | Plus e | Tourne e -> check_program e
-  | Affect (s, e) -> if id_var_in_list s !var_list = false then raise (Error ("Variable not declared")) else check_program e
-  | DebutFin instr_list -> List.map (check_program instr_list)
-
-
+  | HautPinceau | BasPinceau -> ()
+  | Avance e | Tourne e -> check_expression e
+  | Affect (s, e) -> if is_var_in_list s !var_list = false then raise (Error ("Variable not declared")) 
+                    else check_expression e
+  | DebutFin instr_list -> check_instruction_list instr_list
+and
+check_instruction_list list = 
+  match list with 
+  |[] -> ()
+  |head::tail -> check_program head; check_program_list tail;
+and
+check_expression = function
+  | Exp (d,s) -> check_expression_debut d; check_expression_suite s
+and 
+check_expression_debut = function
+  | Const n -> ();
+  | Ident s -> if is_var_in_list s !var_list = true then raise (Error ("Variable already declared")) 
+              else var_list := s::(!var_list); ()
+  | Parenthese e -> check_expression e
+and 
+check_expression_suite = function
+  | Moins e -> check_expression e
+  | Plus e -> check_expression e
+  | Epsilone -> ()
