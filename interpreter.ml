@@ -6,7 +6,7 @@ open Syntax
 exception Error of string
 
 type position = {
-  a: float;
+  a: int;
   leve: bool;
   xmax: float;
   ymax: float;
@@ -14,17 +14,34 @@ type position = {
 
 let get_XY pos len = 
   let hypo = Float.of_int len in
-  let dx = hypo *. (cos (!pos).a) in
-  let dy = hypo *. (sin (!pos).a) in
+  let dx = hypo *. (cos ( Float.of_int (!pos).a)) in
+  let dy = hypo *. (sin (Float.of_int (!pos).a)) in
   let posCourant = Graphics.current_point () in
   match posCourant with
   |(x, y) -> 
+    print_string "\ncalcul distance--------\n";
+    print_string "angle = ";
+    print_int (!pos).a;
+    print_string "\nhypo = ";
+    print_float hypo;
+    print_string "\n";
+    print_int x;
+    print_string ", ";
+    print_int y;
+    print_string "\nresul = ";
+    
+
     let newX = (Float.of_int x) +. dx in
     let newY = (Float.of_int y) +. dy in
     if newX < 0. || newX > (!pos).xmax || newY < 0. || newY > (!pos).ymax then
       raise (Error "sortie de canvas")
-    else 
+    else(
+      print_float newX;
+      print_string ", ";
+      print_float newY;
+      print_string "\n";
       (newX, newY)
+    )
 
 let initialisation li_declaration = 
   List.map (fun ident -> (ident, 0)) li_declaration
@@ -51,28 +68,33 @@ let rec exec_instruction env instruction etat =
     (etat := {a = (!etat).a; leve=true; xmax=(!etat).xmax; ymax=(!etat).ymax};
     env)
   |BasPinceau ->
+    print_string "\nbas \n";
     (etat := {a = (!etat).a; leve=false; xmax=(!etat).xmax; ymax=(!etat).ymax};
     env)
   |Affect (variable, expression) -> 
     let e = evaluation env expression in
+    print_int e;
     List.map (fun element -> 
       match element with
       |(ident, valeur)-> if ident=variable then (ident, e) else (ident, valeur)
     )env
   |Avance expression -> 
     let e = evaluation env expression in
+    
     (
       try 
+      
         let pos2 = get_XY etat e in
         match pos2 with
-        |(x, y)-> if (!etat).leve then((Graphics.moveto (Float.to_int x) (Float.to_int y)); env)
+        |(x, y)-> 
+        if (!etat).leve then((Graphics.moveto (Float.to_int x) (Float.to_int y)); env)
                   else((Graphics.lineto (Float.to_int x) (Float.to_int y)); env)
       with
       |Error message -> raise (Error message)
     )
   |Tourne expression -> 
     let e = evaluation env expression in
-    let newAngle = (!etat).a +. Float.of_int e in
+    let newAngle = ((!etat).a + e) mod 360 in
     (etat := {a = newAngle; leve=(!etat).leve; xmax=(!etat).xmax; ymax=(!etat).ymax};
       env)
   |DebutFin li_instruction -> exec_li_instruction env li_instruction etat
@@ -82,10 +104,11 @@ and exec_li_instruction env li_instruction etat =
   env li_instruction
 
 let exec_program arbre = 
-  let state = ref {a = 90.; leve = true; xmax = 0.; ymax = 0.} in
+  let state = ref {a = 90; leve = true; xmax = 800.; ymax = 800.} in
   match arbre with 
   |(li_declaration, li_instruction)->
     let env = initialisation li_declaration in
     Graphics.open_graph " 800x800";
     Graphics.moveto 400 400;
-    exec_li_instruction env  li_instruction state
+    let _= exec_li_instruction env  li_instruction state in
+    ignore (Graphics.wait_next_event [Button_down ; Key_pressed])

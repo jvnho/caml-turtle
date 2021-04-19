@@ -2,11 +2,11 @@ Var angle;
 Debut
 angle = 0 - 90;
 BasPinceau;
-Avance 10;
+Avance 80;
 Tourne angle;
-Avance 10;
+Avance 80;
 Tourne angle;
-Avance 10;
+Avance 80;
 Tourne angle;
-Avance 10;
+Avance 80;
 Fin
