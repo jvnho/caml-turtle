@@ -22,13 +22,13 @@ and
 check_instruction_list list = 
   match list with 
   |[] -> ()
-  |head::tail -> check_program head; check_program_list tail;
+  |head::tail -> check_program head; check_instruction_list tail;
 and
 check_expression = function
   | Exp (d,s) -> check_expression_debut d; check_expression_suite s
 and 
 check_expression_debut = function
-  | Const n -> ();
+  | Const _n -> ();
   | Ident s -> if is_var_in_list s !var_list = true then raise (Error ("Variable already declared")) 
               else var_list := s::(!var_list); ()
   | Parenthese e -> check_expression e
