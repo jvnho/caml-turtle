@@ -16,6 +16,7 @@ type instruction =
   | Avance of expression
   | Tourne of expression
   | DebutFin of instruction list 
+  | TantQueFaire of expression * instruction list 
 
 type declaration = string 
 type programme = declaration list * instruction list
