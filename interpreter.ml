@@ -13,12 +13,14 @@ type position = {
 }
 
 let get_XY pos len = 
+  let angle_rad = (float_of_int (!pos).a) *. (acos(-1.)/.180.) in
   let hypo = Float.of_int len in
-  let dx = hypo *. (cos ( Float.of_int (!pos).a)) in
-  let dy = hypo *. (sin (Float.of_int (!pos).a)) in
+  let dx = hypo *. (cos angle_rad) in
+  let dy = hypo *. (sin angle_rad) in
   let posCourant = Graphics.current_point () in
   match posCourant with
   |(x, y) -> 
+  (*
     print_string "\ncalcul distance--------\n";
     print_string "angle = ";
     print_int (!pos).a;
@@ -29,7 +31,7 @@ let get_XY pos len =
     print_string ", ";
     print_int y;
     print_string "\nresul = ";
-    
+    *)
 
     let newX = (Float.of_int x) +. dx in
     let newY = (Float.of_int y) +. dy in
