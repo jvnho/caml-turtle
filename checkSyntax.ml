@@ -14,7 +14,6 @@ let rec is_var_in_list elt list =
 (*retourne rien, mais declenche une erreur en cas d'arbre incorecte*) 
 
 let rec check_program = function 
-  |
   | Exp (d,s) -> check_program d; check_program s
   | Const n | Epsilone | HautPinceau | BasPinceau -> ()
   | Ident s -> if is_var_in_list s !var_list = true then raise (Error ("Variable already declared")) else var_list := s::(!var_list); ()
