@@ -27,12 +27,14 @@ i=instruction POINTVIRGULE b=blocInstruction {i::b}
 | {[]}
 
 expression:
-n=INTCONST e=expressionSuite { Exp((Const n), e) }
-|i=IDENT e=expressionSuite { Exp((Ident i), e) }
-|LEFTPA e=expression RIGHTPA e2 = expressionSuite { Exp(Parenthese(e), e2) }
+n=INTCONST { (Const n) }
+|i=IDENT { (Ident i) }
+|LEFTPA e=expression RIGHTPA { Parenthese(e) }
+|e1 = expression o=operation e2 = expression { App(e1,o,e2) }
+|MOINS e= expression { UnaryMoins(e)}
 
-expressionSuite:
-PLUS e=expression  { Plus e }
-|MOINS e=expression { Moins e }
-| {Epsilone}
-
+operation:
+|PLUS { Plus }
+|MOINS { Moins }
+|MULT { Multi }
+|Div { Div }
