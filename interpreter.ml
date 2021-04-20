@@ -100,10 +100,15 @@ let rec exec_instruction env instruction etat =
     (etat := {a = newAngle; leve=(!etat).leve; xmax=(!etat).xmax; ymax=(!etat).ymax};
       env)
   |DebutFin li_instruction -> exec_li_instruction env li_instruction etat
+  |TantQueFaire (expression, li_instruction) -> exec_do_while expression env li_instruction etat
 
 and exec_li_instruction env li_instruction etat = 
   List.fold_left (fun environemnt instruction -> exec_instruction environemnt instruction etat) 
   env li_instruction
+
+and exec_do_while expression env li_instruction etat =
+  let e = evaluation env expression in 
+  if e = 0 then env else exec_do_while expression (exec_li_instruction env li_instruction etat) li_instruction etat
 
 let exec_program arbre = 
   let state = ref {a = 90; leve = true; xmax = 800.; ymax = 800.} in
