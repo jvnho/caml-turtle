@@ -55,7 +55,6 @@ let rec exec_instruction env instruction etat =
     env)
   |Affect (variable, expression) -> 
     let e = evaluation env expression in
-    print_int e;
     List.map (fun element -> 
       match element with
       |(ident, valeur)-> if ident=variable then (ident, e) else (ident, valeur)
