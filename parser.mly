@@ -20,7 +20,7 @@ AVANCE e=expression { Avance e }
 | i=IDENT EGALE e=expression { Affect(i, e) }
 | DEBUT b=blocInstruction FIN { DebutFin b }
 | SI e=expression ALORS i1=instruction SINON i2=instruction { SiSinon(e, i1, i2) }
-| WHILE e=expression DO b=blocInstruction {TantQueFaire(e,b)}
+| WHILE e=expression DO i=instruction {TantQueFaire(e,i)}
 
 blocInstruction:
 i=instruction POINTVIRGULE b=blocInstruction {i::b}

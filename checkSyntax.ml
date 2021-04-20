@@ -18,7 +18,7 @@ let rec check_program = function
   | Affect (s, e) -> if is_var_in_list s !var_list = false then raise (Error ("Variable not declared")) 
                     else check_expression e
   | DebutFin instr_list -> check_instruction_list instr_list
-  | TantQueFaire (e, instr_list) -> check_expression e; check_instruction_list instr_list
+  | TantQueFaire (e, instr) -> check_expression e; check_program instr
   | SiSinon (e,instr1,instr2) -> check_expression e; check_program instr1; check_program instr2; 
 and
 check_instruction_list list = 
