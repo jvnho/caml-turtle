@@ -1,5 +1,5 @@
 %token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE 
-%token DEBUT FIN PLUS MOINS EOF LEFTPA RIGHTPA SI ALORS SINON
+%token DEBUT FIN PLUS MOINS EOF LEFTPA RIGHTPA SI ALORS SINON WHILE DO 
 %token <int> INTCONST
 %token <string> IDENT
 %start <Syntax.programme> s
@@ -20,6 +20,7 @@ AVANCE e=expression { Avance e }
 | i=IDENT EGALE e=expression { Affect(i, e) }
 | DEBUT b=blocInstruction FIN { DebutFin b }
 | SI e=expression ALORS i1=instruction SINON i2=instruction { SiSinon(e, i1, i2) }
+| WHILE e=expression DO b=blocInstruction {TantQueFaire(e,b)}
 
 blocInstruction:
 i=instruction POINTVIRGULE b=blocInstruction {i::b}
