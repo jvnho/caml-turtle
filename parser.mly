@@ -1,0 +1,38 @@
+%token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE 
+%token DEBUT FIN PLUS MOINS EOF LEFTPA RIGHTPA SI ALORS SINON WHILE DO 
+%token <int> INTCONST
+%token <string> IDENT
+%start <Syntax.programme> s
+%{open Syntax%}
+%%
+s: p = programme EOF {p}
+
+programme: d = declaration* i=instruction* {(d, i)}
+
+declaration: 
+VAR i=IDENT POINTVIRGULE {i}
+
+instruction:
+AVANCE e=expression { Avance e }
+| TOURNE e=expression { Tourne e }
+| BASPINCEAU { BasPinceau }
+| HAUTPINCEAU { HautPinceau }
+| i=IDENT EGALE e=expression { Affect(i, e) }
+| DEBUT b=blocInstruction FIN { DebutFin b }
+| SI e=expression ALORS i1=instruction SINON i2=instruction { SiSinon(e, i1, i2) }
+| WHILE e=expression DO i=instruction {TantQueFaire(e,i)}
+
+blocInstruction:
+i=instruction POINTVIRGULE b=blocInstruction {i::b}
+| {[]}
+
+expression:
+n=INTCONST e=expressionSuite { Exp((Const n), e) }
+|i=IDENT e=expressionSuite { Exp((Ident i), e) }
+|LEFTPA e=expression RIGHTPA e2 = expressionSuite { Exp(Parenthese(e), e2) }
+
+expressionSuite:
+PLUS e=expression  { Plus e }
+|MOINS e=expression { Moins e }
+| {Epsilone}
+
