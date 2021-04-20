@@ -1,5 +1,6 @@
 %token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE 
-%token DEBUT FIN PLUS MOINS EOF LEFTPA RIGHTPA SI ALORS SINON WHILE DO 
+%token DEBUT FIN PLUS MOINS EOF LEFTPA RIGHTPA SI ALORS SINON WHILE DO
+%token MULTI DIV
 %token <int> INTCONST
 %token <string> IDENT
 %start <Syntax.programme> s
@@ -36,5 +37,5 @@ n=INTCONST { (Const n) }
 operation:
 |PLUS { Plus }
 |MOINS { Moins }
-|MULT { Multi }
-|Div { Div }
+|MULTI { Multi }
+|DIV { Div }
