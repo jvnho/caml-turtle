@@ -51,7 +51,6 @@ let rec exec_instruction env instruction etat =
     (etat := {a = (!etat).a; leve=true; xmax=(!etat).xmax; ymax=(!etat).ymax};
     env)
   |BasPinceau ->
-    print_string "\nbas \n";
     (etat := {a = (!etat).a; leve=false; xmax=(!etat).xmax; ymax=(!etat).ymax};
     env)
   |Affect (variable, expression) -> 
@@ -87,7 +86,9 @@ let rec exec_instruction env instruction etat =
     else exec_instruction env instructionSinon etat
   |TantQueFaire (expression, instr) -> 
     let e = evaluation env expression in 
-    if e <> 0 then env else exec_instruction env instr etat 
+    if e = 0 then env else 
+      let env2 = exec_instruction env instr etat in
+      exec_instruction env2 instruction etat 
 
 and exec_li_instruction env li_instruction etat = 
   List.fold_left (fun environemnt instruction -> exec_instruction environemnt instruction etat) 

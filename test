@@ -1,0 +1,12 @@
+Var a;
+Debut
+a = 5;
+Tant que a Faire
+Debut
+BasPinceau;
+Avance 10;
+HautPinceau;
+Avance 10;
+a = a - 1;
+Fin;
+Fin
