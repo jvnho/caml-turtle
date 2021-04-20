@@ -23,6 +23,9 @@ rule programme = parse
     | "Var"                     { VAR }
     | "Debut"                   { DEBUT }
     | "Fin"                     { FIN }
+    | "Si"                      { SI }
+    | "Alors"                   { ALORS }
+    | "Sinon"                   { SINON }
     | ['0'-'9']+ as i           { INTCONST (int_of_string i) }
     | ['a'-'z']+ as s           { IDENT s }
     | ";"                       { POINTVIRGULE }

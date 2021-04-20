@@ -9,4 +9,5 @@ Tourne angle;
 Avance 80;
 Tourne angle;
 Avance 80;
+Si angle + 90 Alors Avance 80 Sinon Avance 130;
 Fin

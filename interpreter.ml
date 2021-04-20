@@ -20,30 +20,11 @@ let get_XY pos len =
   let posCourant = Graphics.current_point () in
   match posCourant with
   |(x, y) -> 
-  (*
-    print_string "\ncalcul distance--------\n";
-    print_string "angle = ";
-    print_int (!pos).a;
-    print_string "\nhypo = ";
-    print_float hypo;
-    print_string "\n";
-    print_int x;
-    print_string ", ";
-    print_int y;
-    print_string "\nresul = ";
-    *)
-
     let newX = (Float.of_int x) +. dx in
     let newY = (Float.of_int y) +. dy in
     if newX < 0. || newX > (!pos).xmax || newY < 0. || newY > (!pos).ymax then
       raise (Error "sortie de canvas")
-    else(
-      print_float newX;
-      print_string ", ";
-      print_float newY;
-      print_string "\n";
-      (newX, newY)
-    )
+    else (newX, newY)
 
 let initialisation li_declaration = 
   List.map (fun ident -> (ident, 0)) li_declaration
@@ -100,6 +81,10 @@ let rec exec_instruction env instruction etat =
     (etat := {a = newAngle; leve=(!etat).leve; xmax=(!etat).xmax; ymax=(!etat).ymax};
       env)
   |DebutFin li_instruction -> exec_li_instruction env li_instruction etat
+  |SiSinon (expression, instructionAlors, instructionSinon) ->
+    let e = evaluation env expression in
+    if e <> 0 then exec_instruction env instructionAlors etat 
+    else exec_instruction env instructionSinon etat
 
 and exec_li_instruction env li_instruction etat = 
   List.fold_left (fun environemnt instruction -> exec_instruction environemnt instruction etat) 
