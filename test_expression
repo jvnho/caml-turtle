@@ -1,0 +1,25 @@
+Var angle;
+Var temp;
+Var long;
+Debut
+    angle = 90;
+    temp = 12;
+    long = 10;
+    Tourne -angle;
+    BasPinceau;
+    Tant que temp Faire
+        Debut
+            Avance long;
+            temp = temp - 1;
+        Fin;
+    Si 4/(3-1) 
+        Alors
+            Debut
+                Tourne -angle;
+                Avance 20;
+            Fin 
+        Sinon 
+            BasPinceau;
+    Tourne -angle;
+    Avance 128 + 2 * - 4;
+Fin
