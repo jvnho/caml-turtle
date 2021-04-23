@@ -35,7 +35,7 @@ n=INTCONST { (Const n) }
 |e1 = expression o=operation e2 = expression { App(e1,o,e2) }
 |MOINS e= expression { UnaryMoins(e)}
 
-operation:
+%inline operation:
 |PLUS { Plus }
 |MOINS { Moins }
 |MULTI { Multi }

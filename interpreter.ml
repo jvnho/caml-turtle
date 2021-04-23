@@ -2,16 +2,18 @@
   si l'arbre passe le checkSyntaxe on l'interprete ici
   contient la gestion des etat des variable, et dessin
 *)
+
 open Syntax
 exception Error of string
 
+(*etat du canvas*)
 type position = {
   a: int;
   leve: bool;
   xmax: float;
   ymax: float;
 }
-
+(*->nouvelle position, si on se deplace de len*)
 let get_XY pos len = 
   let angle_rad = (float_of_int (!pos).a) *. (acos(-1.)/.180.) in
   let hypo = Float.of_int len in
@@ -26,25 +28,30 @@ let get_XY pos len =
       raise (Error "sortie de canvas")
     else (newX, newY)
 
+(*initialise les variable a zero*)
 let initialisation li_declaration = 
   List.map (fun ident -> (ident, 0)) li_declaration
 
+(*resultat entiere de l'expression*)
 let rec evaluation env expression = 
   match expression with
-  |Exp (debut, suite)-> 
-    begin
-      let d = eval_debut env debut in
-      match suite with
-      |Moins exp -> d - (evaluation env exp)
-      |Plus exp -> d + (evaluation env exp)
-      |Epsilone -> d
-    end
-and eval_debut env debut = 
-  match debut with
   |Const i -> i
   |Ident variable -> List.assoc variable env
   |Parenthese exp -> evaluation env exp
+  |App (expression1, operation, expression2)->
+    (
+      let e1 = evaluation env expression1 in
+      let e2 = evaluation env expression2 in
+      match operation with
+      |Moins -> e1 - e2
+      |Plus -> e1 + e2
+      |Multi -> e1 * e2
+      |Div -> if e2 = 0 then raise (Error "Division par zero") else e1/e2
+    )
+  |UnaryMoins exp -> -(evaluation env exp)
 
+
+(*renvoie la nouvelle environement apres l'execution de l'instruction *)
 let rec exec_instruction env instruction etat = 
   match instruction with 
   |HautPinceau -> 
@@ -89,10 +96,12 @@ let rec exec_instruction env instruction etat =
       let env2 = exec_instruction env instr etat in
       exec_instruction env2 instruction etat 
 
+(*execution de plusieur instruction*)
 and exec_li_instruction env li_instruction etat = 
   List.fold_left (fun environemnt instruction -> exec_instruction environemnt instruction etat) 
   env li_instruction
 
+(*fonction principale*)
 let exec_program arbre = 
   let state = ref {a = 90; leve = true; xmax = 800.; ymax = 800.} in
   match arbre with 

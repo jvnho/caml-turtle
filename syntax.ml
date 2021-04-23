@@ -4,7 +4,7 @@ Const of int
 |Parenthese of expression
 |App of expression * op * expression
 |UnaryMoins of expression
-type op = 
+and op = 
 Moins
 |Plus
 |Multi
