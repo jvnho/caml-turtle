@@ -19,7 +19,8 @@ type instruction =
   | Tourne of expression
   | DebutFin of instruction list 
   | SiSinon of expression * instruction * instruction
-  | TantQueFaire of expression * instruction 
+  | TantQueFaire of expression * instruction
+  | Couleur of expression
 
 type declaration = string 
 type programme = declaration list * instruction list

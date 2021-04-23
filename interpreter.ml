@@ -95,6 +95,10 @@ let rec exec_instruction env instruction etat =
     if e = 0 then env else 
       let env2 = exec_instruction env instr etat in
       exec_instruction env2 instruction etat 
+  | Couleur expression ->
+    let e = evaluation env expression in 
+    if e > 255 || e < 0 then raise(Error "Code Couleur RGB doit être compris entre 0 et 255 inclus");
+    (Graphics.set_color e; env)
 
 (*execution de plusieur instruction*)
 and exec_li_instruction env li_instruction etat = 
