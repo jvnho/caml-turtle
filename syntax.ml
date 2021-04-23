@@ -20,6 +20,7 @@ type instruction =
   | DebutFin of instruction list 
   | SiSinon of expression * instruction * instruction
   | TantQueFaire of expression * instruction
+  | SiAlors of expression * instruction
   | Couleur of expression
   | Epaisseur of expression
 
