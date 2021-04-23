@@ -98,10 +98,12 @@ let rec exec_instruction env instruction etat =
   |SiAlors (expression, instruction) -> 
     let e = evaluation env expression in
     if e<>0 then exec_instruction env instruction etat else env
-  | Couleur expression ->
-    let e = evaluation env expression in 
-    if e > 255 || e < 0 then raise(Error "Code Couleur RGB doit être compris entre 0 et 255 inclus");
-    (Graphics.set_color e; env)
+  | Couleur (expr1,expr2,expr3) ->
+    let e1 = evaluation env expr1 in 
+    let e2 = evaluation env expr2 in 
+    let e3 = evaluation env expr3 in 
+    if e1 > 255 || e1 < 0 || e2 > 255 || e2 < 0 || e3 > 255 || e3 < 0  then raise(Error "Code Couleur RGB doit être compris entre 0 et 255 inclus");
+    (Graphics.set_color (Graphics.rgb e1 e2 e3); env)
   | Epaisseur expression ->
     let e = evaluation env expression in 
     if e <= 0 then raise(Error "Epaisseur doit être strictement supérieur à zéro");
@@ -119,6 +121,6 @@ let exec_program arbre =
   |(li_declaration, li_instruction)->
     let env = initialisation li_declaration in
     Graphics.open_graph " 800x800";
-    Graphics.moveto 0 0;
+    Graphics.moveto 400 400;
     let _= exec_li_instruction env  li_instruction state in
     ignore (Graphics.wait_next_event [Button_down ; Key_pressed])
