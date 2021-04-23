@@ -95,6 +95,9 @@ let rec exec_instruction env instruction etat =
     if e = 0 then env else 
       let env2 = exec_instruction env instr etat in
       exec_instruction env2 instruction etat 
+  |SiAlors (expression, instruction) -> 
+    let e = evaluation env expression in
+    if e<>0 then exec_instruction env instruction etat else env
 
 (*execution de plusieur instruction*)
 and exec_li_instruction env li_instruction etat = 

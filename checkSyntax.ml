@@ -43,6 +43,7 @@ check_instr instruction =
   |DebutFin instr_list -> check_instr_list instr_list
   |TantQueFaire (e, instr) -> check_expression e; check_instr instr
   |SiSinon (e,instr1,instr2) -> check_expression e; check_instr instr1; check_instr instr2; 
+  |SiAlors (e, instr) -> check_expression e; check_instr instr
 ;;
 
 (*retourne rien, mais declenche une erreur en cas d'arbre incorecte*)
