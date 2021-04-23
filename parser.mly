@@ -1,4 +1,4 @@
-%token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE COULEUR 
+%token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE COULEUR EPAISSEUR
 %token DEBUT FIN EOF LEFTPA RIGHTPA SI ALORS SINON WHILE DO PLUS MOINS MULTI DIV
 %left MOINS PLUS
 %right MULTI DIV
@@ -24,6 +24,7 @@ AVANCE e=expression { Avance e }
 | SI e=expression ALORS i1=instruction SINON i2=instruction { SiSinon(e, i1, i2) }
 | WHILE e=expression DO i=instruction {TantQueFaire(e,i)}
 | COULEUR e = expression {Couleur(e)}
+| EPAISSEUR e = expression {Epaisseur(e)}
 
 blocInstruction:
 i=instruction POINTVIRGULE b=blocInstruction {i::b}

@@ -21,6 +21,7 @@ type instruction =
   | SiSinon of expression * instruction * instruction
   | TantQueFaire of expression * instruction
   | Couleur of expression
+  | Epaisseur of expression
 
 type declaration = string 
 type programme = declaration list * instruction list

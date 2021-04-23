@@ -37,7 +37,7 @@ and
 check_instr instruction = 
   match instruction with 
   |HautPinceau | BasPinceau -> ()
-  |Avance e | Tourne e | Couleur e-> check_expression e
+  |Avance e | Tourne e | Couleur e | Epaisseur e -> check_expression e
   |Affect (s, e) -> if is_var_in_list s !declaration_liste = false then raise (Error ("Variable " ^s ^ " pas déclarée")) 
                     else check_expression e
   |DebutFin instr_list -> check_instr_list instr_list
