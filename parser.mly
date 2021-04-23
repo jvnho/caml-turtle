@@ -1,9 +1,11 @@
-%token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE 
+%token VAR POINTVIRGULE AVANCE TOURNE BASPINCEAU HAUTPINCEAU EGALE COULEUR EPAISSEUR
 %token DEBUT FIN EOF LEFTPA RIGHTPA SI ALORS SINON WHILE DO PLUS MOINS MULTI DIV
 %left MOINS PLUS
 %right MULTI DIV
 %token <int> INTCONST
 %token <string> IDENT
+%nonassoc ALORS
+%nonassoc SINON
 %start <Syntax.programme> s
 %{open Syntax%}
 %%
@@ -23,6 +25,9 @@ AVANCE e=expression { Avance e }
 | DEBUT b=blocInstruction FIN { DebutFin b }
 | SI e=expression ALORS i1=instruction SINON i2=instruction { SiSinon(e, i1, i2) }
 | WHILE e=expression DO i=instruction {TantQueFaire(e,i)}
+| SI e=expression ALORS i= instruction {SiAlors(e, i)}
+| COULEUR e = expression {Couleur(e)}
+| EPAISSEUR e = expression {Epaisseur(e)}
 
 blocInstruction:
 i=instruction POINTVIRGULE b=blocInstruction {i::b}

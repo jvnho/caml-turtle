@@ -1,0 +1,13 @@
+Var a;
+Si 0 Alors 
+Si 1 Alors 
+    Debut 
+        BasPinceau;
+        Avance 20;
+    Fin
+Sinon
+    Debut
+        BasPinceau;
+        Tourne -90;
+        Avance 20;
+    Fin
