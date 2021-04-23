@@ -1,13 +1,15 @@
-type expression = Exp of debut * suite
-and debut =
+type op = 
+Moins
+|Plus
+|Multi
+|Div
+
+type expression =
 Const of int
 |Ident of string
 |Parenthese of expression
-
-and suite =
-Moins of expression
-|Plus of expression
-|Epsilone
+|App of expression * op * expression
+|UnaryMoins of expression
 
 type instruction = 
   | HautPinceau

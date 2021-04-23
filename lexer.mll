@@ -35,6 +35,8 @@ rule programme = parse
     | ")"                       { RIGHTPA }
     | "+"                       { PLUS }
     | "-"                       { MOINS } 
+    | "/"                       { DIV }
+    | "*"                       { MULTI }
     | "="                       { EGALE }
     | eof                       { EOF }
     | _                         { raise(Error(Lexing.lexeme lexbuf))}

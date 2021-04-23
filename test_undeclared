@@ -1,0 +1,6 @@
+Var a;
+Debut
+    a = 2;
+    HautPinceau;
+    Avance a + b;
+Fin

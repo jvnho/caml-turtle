@@ -1,6 +1,6 @@
 Var angle;
 Debut
-    angle = 0 - 90;
+    angle = -90;
     BasPinceau;
     Avance 80;
     Tourne angle;
@@ -9,9 +9,4 @@ Debut
     Avance 80;
     Tourne angle;
     Avance 80;
-    Si angle + 90 
-        Alors 
-            Avance 80 
-        Sinon 
-            Avance 130;
 Fin
