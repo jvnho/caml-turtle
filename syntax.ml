@@ -1,14 +1,15 @@
+type op = 
+Moins
+|Plus
+|Multi
+|Div
+
 type expression =
 Const of int
 |Ident of string
 |Parenthese of expression
 |App of expression * op * expression
 |UnaryMoins of expression
-and op = 
-Moins
-|Plus
-|Multi
-|Div
 
 type instruction = 
   | HautPinceau

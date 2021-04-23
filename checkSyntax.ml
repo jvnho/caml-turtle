@@ -4,38 +4,52 @@ open Syntax
 
 exception Error of string
 
-let var_list = ref []
+let declaration_liste = ref [];;
+
+let rec duplicate_elt list =
+  match list with 
+  |[] -> false
+  |head::tail ->  List.exists ((=) head) tail || duplicate_elt tail
+;;
 
 let rec is_var_in_list elt list =
   match list with
-  | [] -> false 
-  | head::tail -> if head = elt then true else is_var_in_list elt tail
+  |[] -> false 
+  |head::tail -> if head = elt then true else is_var_in_list elt tail
+;;
 
-(*retourne rien, mais declenche une erreur en cas d'arbre incorecte*)
-let rec check_program = function 
-  | HautPinceau | BasPinceau -> ()
-  | Avance e | Tourne e -> check_expression e
-  | Affect (s, e) -> if is_var_in_list s !var_list = false then raise (Error ("Variable not declared")) 
-                    else check_expression e
-  | DebutFin instr_list -> check_instruction_list instr_list
-  | TantQueFaire (e, instr) -> check_expression e; check_program instr
-  | SiSinon (e,instr1,instr2) -> check_expression e; check_program instr1; check_program instr2; 
-and
-check_instruction_list list = 
+let rec check_expression expression =
+  match expression with
+  |Const _n -> ()
+  |Ident s -> if is_var_in_list s !declaration_liste = false then raise (Error ("Variable not declared")) 
+              else ()
+  |Parenthese e -> check_expression e 
+  |App (e1, _op, e2) -> check_expression e1; check_expression e2;
+  |UnaryMoins e -> check_expression e;
+;;
+
+let rec check_instr_list list = 
   match list with 
   |[] -> ()
-  |head::tail -> check_program head; check_instruction_list tail;
+  |head::tail -> check_instr head; check_instr_list tail;
+
 and
-check_expression = function
-  | Exp (d,s) -> check_expression_debut d; check_expression_suite s
-and 
-check_expression_debut = function
-  | Const _n -> ();
-  | Ident s -> if is_var_in_list s !var_list = true then raise (Error ("Variable already declared")) 
-              else var_list := s::(!var_list); ()
-  | Parenthese e -> check_expression e
-and 
-check_expression_suite = function
-  | Moins e -> check_expression e
-  | Plus e -> check_expression e
-  | Epsilone -> ()
+check_instr instruction = 
+  match instruction with 
+  |HautPinceau | BasPinceau -> ()
+  |Avance e | Tourne e -> check_expression e
+  |Affect (s, e) -> if is_var_in_list s !declaration_liste = false then raise (Error ("Variable not declared")) 
+                    else check_expression e
+  |DebutFin instr_list -> check_instr_list instr_list
+  |TantQueFaire (e, instr) -> check_expression e; check_instr instr
+  |SiSinon (e,instr1,instr2) -> check_expression e; check_instr instr1; check_instr instr2; 
+;;
+
+(*retourne rien, mais declenche une erreur en cas d'arbre incorecte*)
+
+let check_program arbre =
+  match arbre with 
+  |(li_declaration, li_instruction) ->
+    declaration_liste := li_declaration; (*pour faireu une sorte de liste globale de declarations*)
+    if duplicate_elt !declaration_liste = true then raise (Error ("Variable declared twice"));
+    check_instr_list li_instruction;
