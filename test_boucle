@@ -1,5 +1,9 @@
 Var a;
 Debut
+    Tourne -90;
+    Avance 400;
+    Tourne 90;
+    Avance 400;
     a = 5;
     Tant que a Faire
         Debut

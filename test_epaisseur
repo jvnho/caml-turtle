@@ -1,16 +1,25 @@
 Var angle;
+Var epaisseur;
 Debut
     Tourne -90;
     Avance 400;
     Tourne 90;
     Avance 400;
+    epaisseur = 1;
     angle = -90;
     BasPinceau;
+    Epaisseur epaisseur;
     Avance 80;
     Tourne angle;
+    epaisseur = epaisseur + 1;
+    Epaisseur epaisseur;
     Avance 80;
     Tourne angle;
+    epaisseur = epaisseur + 1;
+    Epaisseur epaisseur;
     Avance 80;
     Tourne angle;
+    epaisseur = epaisseur + 1;
+    Epaisseur epaisseur;
     Avance 80;
 Fin

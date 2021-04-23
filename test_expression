@@ -2,6 +2,10 @@ Var angle;
 Var temp;
 Var long;
 Debut
+    Tourne -90;
+    Avance 400;
+    Tourne 90;
+    Avance 400;
     angle = 90;
     temp = 12;
     long = 10;

@@ -2,6 +2,10 @@ Var a;
 Si 0 Alors 
 Si 1 Alors 
     Debut 
+        Tourne -90;
+        Avance 400;
+        Tourne 90;
+        Avance 400;
         BasPinceau;
         Avance 20;
     Fin
