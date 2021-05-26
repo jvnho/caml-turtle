@@ -98,12 +98,6 @@ let rec exec_instruction env instruction etat =
   |SiAlors (expression, instruction) -> 
     let e = evaluation env expression in
     if e<>0 then exec_instruction env instruction etat else env
-  | Couleur (expr1,expr2,expr3) ->
-    let e1 = evaluation env expr1 in 
-    let e2 = evaluation env expr2 in 
-    let e3 = evaluation env expr3 in 
-    if e1 > 255 || e1 < 0 || e2 > 255 || e2 < 0 || e3 > 255 || e3 < 0  then raise(Error "Code Couleur RGB doit être compris entre 0 et 255 inclus");
-    (Graphics.set_color (Graphics.rgb e1 e2 e3); env)
   | Epaisseur expression ->
     let e = evaluation env expression in 
     if e <= 0 then raise(Error "Epaisseur doit être strictement supérieur à zéro");

@@ -28,7 +28,6 @@ rule programme = parse
     | "Sinon"                   { SINON }
     | "Tant que"                { WHILE }
     | "Faire"                   { DO }
-    | "Couleur"                 { COULEUR }
     | "Epaisseur"               { EPAISSEUR }
     | ['0'-'9']+ as i           { INTCONST (int_of_string i) }
     | ['a'-'z']+ as s           { IDENT s }

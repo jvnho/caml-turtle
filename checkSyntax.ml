@@ -44,7 +44,6 @@ check_instr instruction =
   |TantQueFaire (e, instr) -> check_expression e; check_instr instr
   |SiSinon (e,instr1,instr2) -> check_expression e; check_instr instr1; check_instr instr2; 
   |SiAlors (e, instr) -> check_expression e; check_instr instr
-  |Couleur (e1,e2,e3) -> check_expression e1; check_expression e2; check_expression e3;
 ;;
 
 (*retourne rien, mais declenche une erreur en cas d'arbre incorecte*)
